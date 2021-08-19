@@ -4,29 +4,27 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ShoppingItem</h4>
+<h1>Toevoegen aan winkelmand</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-controller="ShoppingItems">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
             <div class="form-group">
                 <label asp-for="Quentity" class="control-label"></label>
                 <input asp-for="Quentity" class="form-control" />
                 <span asp-validation-for="Quentity" class="text-danger"></span>
             </div>
+            <div>
+                <p class="control-label">@Model.Product.Name</p>
+            </div>
             @*<div class="form-group">
-                    <label asp-for="ShoppingBagId" class="control-label"></label>
-                    <select asp-for="ShoppingBagId" class ="form-control" asp-items="ViewBag.ShoppingBagId"></select>
-                </div>*@
-            @*<div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
-            </div>*@
+            <label asp-for="ProductId" class="control-label"></label>
+            <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+        </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Toevoegen" class="btn btn-primary" />
             </div>
         </form>
     </div>

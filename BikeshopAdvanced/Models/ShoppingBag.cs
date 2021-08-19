@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace BikeshopAdvanced.Models
         public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        public Customer Customer { get; set; }
-        public int CustomerId { get; set; }
+        public IdentityUser Customer { get; set; }
+        public string CustomerId { get; set; }
         public ICollection<ShoppingItem> ShoppingItems { get; set; }
-        public ShoppingBag(DateTime date, int customerId)
+        public ShoppingBag(DateTime date, string customerId)
         {
             CustomerId = customerId;
             Date = date;
