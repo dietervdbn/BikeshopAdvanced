@@ -41,10 +41,14 @@
                     @Html.DisplayFor(modelItem => item.Price) €
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    @Html.ActionLink("Add to basket", "Bag", "Products", new { ProductId = item.Id }, new { @class = "btn btn-primary" })
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit |", "Edit", "Products", new { Id = @item.Id }) 
+                        @Html.ActionLink(" Details |", "Details", "Products", new { Id = @item.Id }) 
+                        @Html.ActionLink(" Delete ", "Delete", "Products", new { Id = @item.Id })
+                     }
+
+                    @Html.ActionLink("Add to basket", "Create", "ShoppingItems", new { ProductId = item.Id }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }

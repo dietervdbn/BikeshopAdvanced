@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BikeshopAdvanced.Models
 {
-    public class Customer
+    public class Customer 
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Naam is verplicht!")]
@@ -14,5 +15,7 @@ namespace BikeshopAdvanced.Models
         [Required(ErrorMessage = "Voornaam is verplicht!")]
         public string FirstName { get; set; }
         public ICollection<ShoppingBag> ShoppingBags { get; set; }
+        public IdentityUser Identity { get; set; }
+        public string ItentityId { get; set; }
     }
 }

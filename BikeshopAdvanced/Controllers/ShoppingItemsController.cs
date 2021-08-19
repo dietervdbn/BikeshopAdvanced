@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BikeshopAdvanced.Data;
 using BikeshopAdvanced.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BikeshopAdvanced
 {
     public class ShoppingItemsController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ShopDbContext _context;
 
-        public ShoppingItemsController(ShopDbContext context)
+        public ShoppingItemsController(ShopDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -49,9 +52,11 @@ namespace BikeshopAdvanced
         // GET: ShoppingItems/Create
         public IActionResult Create(int productId)
         {
-            var product = _context.Products.Where(a => a.Id == productId).FirstOrDefault();
-            ViewData["ProductId"] = product.Id;
-            return View();
+            //var product = _context.Products.Where(a => a.Id == productId).FirstOrDefault();
+            //ViewData["ProductId"] = product.Id;
+            //ViewData["ProductName"] = product.Name;
+            var item = new ShoppingItem { Product = _context.Products.FirstOrDefault(p => p.Id == productId) };
+            return View(item);
         }
 
         // POST: ShoppingItems/Create
@@ -59,17 +64,27 @@ namespace BikeshopAdvanced
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Quentity,ShoppingBagId,ProductId")] ShoppingItem shoppingItem)
+        public async Task<IActionResult> Create(ShoppingItem shoppingItem)
         {
+            IdentityUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var bag = _context.shoppingBags.FirstOrDefault(x => x.CustomerId == user.Id);
+            if (bag == null)
+            {
+                _context.shoppingBags.Add(new ShoppingBag { CustomerId = user.Id, Date = DateTime.Today });
+                _context.SaveChanges();
+                bag = _context.shoppingBags.FirstOrDefault(x => x.CustomerId == user.Id);
+            }
+
+
             if (ModelState.IsValid)
             {
+                shoppingItem.ShoppingBagId = bag.Id;
+
                 _context.shoppingItems.Add(shoppingItem);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Bag","Account");
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", shoppingItem.ProductId);
-            ViewData["ShoppingBagId"] = new SelectList(_context.shoppingBags, "Id", "Id", shoppingItem.ShoppingBagId);
-            return View(shoppingItem);
+            return View(shoppingItem.ProductId);
         }
 
 
