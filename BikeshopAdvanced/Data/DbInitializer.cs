@@ -10,28 +10,28 @@ namespace BikeshopAdvanced.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.Customers.Any() && context.Products.Any())
+            if (/*context.Customers.Any() &&*/ context.Products.Any())
             {
                 return;
             }
-            if (!context.Customers.Any())
-            {
-                var CustommerList = new List<Customer>()
-            {
-            new Customer {FirstName="Koenraad",Name="DeBlauwe"},
-            new Customer {FirstName="Vincent",Name="Tamboryn"},
-            new Customer {FirstName="Wim",Name="Forton"},
-            new Customer {FirstName="Arthur",Name="Devresse"},
-            new Customer {FirstName="Wouter",Name="Verhoeven"},
-            new Customer {FirstName="Matthijs",Name="Debacker"},
-            new Customer {FirstName="Michiel",Name="Van gasse"},
-            };
-                foreach (var custommer in CustommerList)
-                {
-                    context.Customers.Add(custommer);
-                }
-                context.SaveChanges();
-            }
+            //if (!context.Customers.Any())
+            //{
+            //    var CustommerList = new List<Customer>()
+            //{
+            //new Customer {FirstName="Koenraad",Name="DeBlauwe"},
+            //new Customer {FirstName="Vincent",Name="Tamboryn"},
+            //new Customer {FirstName="Wim",Name="Forton"},
+            //new Customer {FirstName="Arthur",Name="Devresse"},
+            //new Customer {FirstName="Wouter",Name="Verhoeven"},
+            //new Customer {FirstName="Matthijs",Name="Debacker"},
+            //new Customer {FirstName="Michiel",Name="Van gasse"},
+            //};
+            //    foreach (var custommer in CustommerList)
+            //    {
+            //        context.Customers.Add(custommer);
+            //    }
+            //    context.SaveChanges();
+            //}
 
             if (!context.Products.Any())
             {

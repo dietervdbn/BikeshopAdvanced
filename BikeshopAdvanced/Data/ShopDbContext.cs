@@ -1,4 +1,6 @@
 ﻿using BikeshopAdvanced.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BikeshopAdvanced.Data
 {
-    public class ShopDbContext : DbContext
+    public class ShopDbContext : IdentityDbContext<IdentityUser>
     {
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options)
         {
