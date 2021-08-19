@@ -75,6 +75,8 @@ namespace BikeshopAdvanced
 
             var customer = await _context.Customers
                 .Include(x => x.ShoppingBags)
+                .ThenInclude(x => x.ShoppingItems)
+                .ThenInclude(x => x.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
