@@ -20,10 +20,7 @@ namespace BikeshopAdvanced
         }
 
         // GET: Customers
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Customers.ToListAsync());
-        //}
+
         public async Task<IActionResult> Index(string? sortOrder, string? currentFilter, string? searchString, int? pageNumber)
 
         {
@@ -75,10 +72,19 @@ namespace BikeshopAdvanced
 
             var customer = await _context.Customers
                 .Include(x => x.ShoppingBags)
+                .ThenInclude(x => x.ShoppingItems)
+                .ThenInclude(x => x.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                var shoppingbag = customer.ShoppingBags.FirstOrDefault();
+                shoppingbag.ShoppingItems = CompresProducts(shoppingbag.ShoppingItems);
+                List < ShoppingBag > lijst = new List<ShoppingBag> { shoppingbag };
+                customer.ShoppingBags = lijst;
             }
 
             return View(customer);
